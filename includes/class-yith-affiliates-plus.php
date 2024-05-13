@@ -131,7 +131,10 @@ class Yith_Affiliates_Plus {
 		add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue_styles' ), 10, 1 );
 
 		// Load Order Meta Box
-		add_action( 'add_meta_boxes', 'custom_order_meta_box' );
+		add_action( 'add_meta_boxes', array($this, 'custom_order_meta_box'));
+
+		// Handle save post
+		add_action('save_post', array($this, 'save_assigned_affiliate'));
 
 		// Load API for generic admin functions.
 		if ( is_admin() ) {
@@ -250,15 +253,59 @@ class Yith_Affiliates_Plus {
 		add_meta_box(
 			'yith-affiliates-plus-link-affiliate-order-meta-box',
 			__( 'Link order to affiliate', 'yith-affiliates-plus' ),
-			'yith_affiliate_order_meta_box_callback',
+			array($this, 'yith_affiliate_order_meta_box_callback'),
 			'shop_order',
-			'advanced',
-			'core'
+			'side',
+			'default'
 		);
 	} // End custom_order_meta_box ()
 
 	public function yith_affiliate_order_meta_box_callback() {
-		echo "<div> This is working </div>";
+		// Assuming you have an array of affiliates
+		$affiliates = [
+			'4' => 'The Third Grade',
+			'5' => 'Lagarto Spok',
+		];
+	
+		// Fetching any existing affiliate assignment from post meta
+		$selected_affiliate = get_post_meta($post->ID, '_yith_wcaf_referral', true);
+	
+		// Start form output
+		echo '<form action="" method="post">';
+	
+		// Security field
+		wp_nonce_field('assign_affiliate_nonce_action', 'assign_affiliate_nonce');
+	
+		// Dropdown for selecting an affiliate
+		echo '<select name="assigned_affiliate">';
+		foreach ($affiliates as $id => $name) {
+			echo '<option value="' . esc_attr($id) . '"' . selected($selected_affiliate, $id, false) . '>' . esc_html($name) . '</option>';
+		}
+		echo '</select>';
+	
+		// Submit button
+		echo '<button class="button button-primary" type="submit" name="assign_affiliate_submit">Assign Affiliate</button>';
+	
+		// Close form
+		echo '</form>';
+	}
+
+	public function save_assigned_affiliate() {
+		// Check if our nonce is set and verify it.
+		if (!isset($_POST['assign_affiliate_nonce']) || !wp_verify_nonce($_POST['assign_affiliate_nonce'], 'assign_affiliate_nonce_action')) {
+			return;
+		}
+	
+		// Check if the current user is allowed to update the post.
+		if (!current_user_can('edit_post', $post_id)) {
+			return;
+		}
+	
+		// Check if our custom field is set and save the value.
+		if (isset($_POST['assigned_affiliate']) && !empty($_POST['assigned_affiliate'])) {
+			// update_post_meta($post_id, '_assigned_affiliate', sanitize_text_field($_POST['assigned_affiliate']));
+			echo "Update affiliate to " + $_POST['assigned_affiliate'];
+		}
 	}
 
 	/**
