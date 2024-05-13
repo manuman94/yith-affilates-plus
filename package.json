@@ -1,0 +1,18 @@
+{
+  "name": "yith-affiliates-plus",
+  "title": "Enhance Yith Affiliates plugin with more features",
+  "version": "1.0.0",
+  "homepage": "https://github.com/manuman94/yith-affiliates-plus",
+  "main": "Gruntfile.js",
+  "scripts": {
+    "pack": "node build-tools/pack-plugin.js"
+  },
+  "devDependencies": {
+    "archiver": "^7.0.1",
+    "grunt": "^1.0.3",
+    "grunt-contrib-cssmin": "~0.9.0",
+    "grunt-contrib-less": "^2.0.0",
+    "grunt-contrib-uglify": "~0.4.0",
+    "grunt-contrib-watch": "^1.1.0"
+  }
+}
