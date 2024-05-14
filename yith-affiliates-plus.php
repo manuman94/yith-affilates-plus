@@ -2,10 +2,10 @@
 /**
  * Plugin Name: Yith Affiliates Plus
  * Version: 1.0.0
- * Plugin URI: http://www.hughlashbrooke.com/
- * Description: This is your starter template for your next WordPress plugin.
- * Author: Hugh Lashbrooke
- * Author URI: http://www.hughlashbrooke.com/
+ * Plugin URI: https://clouds.band
+ * Description: Enhance Yith Affiliates plugin with new features
+ * Author: José Manuel Blasco (manuman)
+ * Author URI: https://clouds.band
  * Requires at least: 4.0
  * Tested up to: 4.0
  *
@@ -13,7 +13,7 @@
  * Domain Path: /lang/
  *
  * @package WordPress
- * @author Hugh Lashbrooke
+ * @author José Manuel Blasco
  * @since 1.0.0
  */
 
